@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		// 作业6：求阶乘
+		// var a = parseInt(prompt('请输入一个数'));
+		function factorial (x){
+			var acc = 1;
+			for (var i = 1; i <= x; i++) {
+			    acc = acc*i;
+		    }
+		    return acc;
+		}
+		// var b = factorial(a);
+		// console.log(b);
+
+
+		// 作业7：求1!+2!+3!+....+n!
+		var c = parseInt(prompt('请输入一个数字'));
+		var sum = 0;
+		for (var i = 1; i <= c; i++) {
+			sum = sum + factorial(i)
+		}
+		console.log(sum);		
+	</script>
+</body>
+</html>

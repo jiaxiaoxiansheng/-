@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		var arr = [2,12,5,62,34]
+		function mm (array){
+			var maxIndex = 0;
+			var minIndex = 0;
+			for (var i = 0; i < array.length; i++) {
+				if (array[maxIndex]<array[i]) {
+					maxIndex = i;
+				}
+			}
+			console.log(array[maxIndex]);
+			//最小值
+			for (var i = 0; i < array.length; i++) {
+				if (array[minIndex]>array[i]) {
+					minIndex = i;
+				}
+			}
+			console.log(array[minIndex]);
+		}
+		mm(arr);		
+	</script>
+</body>
+</html>

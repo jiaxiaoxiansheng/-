@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		var totalDay = 0;
+		var date = new Date(2015-05-07);
+		//获取年份
+		var year = date.getFullYear();
+		//获取月份
+		var month = date.getMonth()+1;
+		//获取日
+		var day = date.getDate();
+
+		//声明每个月的天数
+		var monthArr = [31,28,31,30,31,30,31,31,30,31,30,31]
+		//第几天是某月的前几个月乘以各自的天数加上当月的天数
+		for (var i = 0; i < month-1; i++) {
+			totalDay = totalDay+monthArr[i];
+		}
+		//加上当月的天数
+		totalDay = totalDay+day;
+		//判断是否闰年，闰年二月多一天,只有月份是2月以后才会29这一天
+		if (isRun（year)&&month>2){
+	     totalDay = totalDay + 1;
+        }
+        function isRun(year){
+        	if ((year%4===0&&year%100!==0) || year%400 === 0) {
+        		return true;
+        	}
+        	return false;
+        }
+	</script>
+</body>
+</html>

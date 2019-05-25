@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            height: 3000px;
+        }
+        .box{
+            position: fixed;
+            display: none;
+            bottom: 150px;
+            right: 150px;
+            border: 1px solid pink;
+            width: 30px;
+            height: 100px;
+            font-size: 16px;
+            color: orange;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">回到顶部</div>
+    <script>
+        var box = document.getElementsByClassName('box')[0];
+
+        window.onscroll = function (){
+            var h = scrollTop();
+            if (h >= 500) {
+                box.style.display = "block";
+            }else{
+                box.style.display = "none";
+            } 
+        }
+        box.onclick = function () {
+            // window.scroll(0,0);
+            // slowly(0);
+            average();
+        }
+
+        //缓动动画
+        var timer = null;
+        function slowly(target) {
+            var start,step,h;
+            // h = scrollTop();
+            clearInterval(timer);
+            timer = setInterval(function (){
+                start = scrollTop();
+                step = (target - start)/10;
+                if (step < -1){
+                    step = Math.floor(step);
+                };
+                if (start === target) {
+                    clearInterval(timer);
+                    window.scroll(0,0);
+                }
+                window.scroll(0,start + step);
+            }, 17);
+        }
+
+        //匀速动画
+        var time = null;
+        function average() {
+            var start,step,cha,target;
+            target = 0
+            clearInterval(time);
+            time = setInterval(function (){
+                step = target > start ? 10 : -10;
+                start = scrollTop();
+                cha = 0-start;
+                if (Math.abs(cha) < Math.abs(step)) {
+                    clearInterval(time);
+                    window.scroll(0,0);
+                }
+                window.scroll(0,start + step);
+            }, 17);
+        }
+        function scrollTop() {
+            return document.documentElement.scrollTop || document.pageXOffset || document.body.scrollTop
+        }
+    </script>
+</body>
+</html>

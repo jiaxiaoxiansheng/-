@@ -1,0 +1,357 @@
+/*清楚默认样式*/
+*{
+	margin: 0;
+	padding: 0;
+}
+a{
+	text-decoration: none;
+}
+ul{
+	list-style: none;
+}
+/*头部样式*/
+.head{
+	position: relative;
+	width: 990px;
+	height: 80px;
+	background-color: #FFFFFF;
+	margin: 10px auto;
+	/*margin-bottom: 10px;*/
+}
+.head .head-img{
+	display: block;
+	float:left;
+	width: 170px;
+	height: 60px;
+	/*background-color: blue;*/
+	background: url(images/logo.png) no-repeat center;
+}
+.head .welcome{
+	float: left;
+	/*width: 50px;*/
+	/*height: 50px;*/
+	/*background-color: green;*/
+	font-size: 28px;
+	height: 60px;
+	margin: 0 auto;
+	line-height: 80px;
+	margin-left: 20px;
+}
+.head .ask{
+	position: absolute;
+	right: 0px;
+	bottom: 10px;
+	height: 20px;
+	color: #999999;
+	font-size: 12px;
+	padding-left: 20px;
+	/*background: url(q-icon.png) no-repeat center;*/
+}
+.head .ask .ask-icon{
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	background: url(images/q-icon.png) no-repeat center;
+	/*background-color: red;*/
+	width: 20px;
+	height: 20px;
+}
+.head .ask:hover{
+	text-decoration: underline;
+	color: #E21C19;
+}
+/*警示文字*/
+.tip{
+	height: 38.5px;
+	background-color: #FFF8F0;
+	overflow: hidden;
+	/*width: 1225px;*/
+/*	text-align: center;
+	margin: 0 auto;
+	line-height: 38.5px;*/
+}
+.tip .text .test{
+	color: #999999;
+	font-size: 12px;
+}
+.tip .text{
+	height: 18.5px;
+	text-align: center;
+	margin: 10px auto;
+	line-height: 18.5px;
+	/*background-color: green;*/
+}
+ .attention{
+	color: #333333;
+}
+/*鼠标悬浮的时候改变颜色和样式*/
+.text .test .attention:hover{
+	text-decoration: underline;
+}
+/*中间内容*/
+.content{
+	height: 475px;
+	/*width: 1552px;*/
+	background-color: #DE9C3C;
+	/*margin-top: 20px;*/
+}
+.content .content-img{
+	position: relative;
+	height: 475px;
+	width: 990px;
+	margin: 0 auto;
+	background: url(images/bg.jpg) no-repeat center;
+}
+/*中间右侧登录框*/
+.login{
+	position: absolute;
+	right: 0;
+	width: 346px;
+	height: 416px;
+	margin-top: 20px;
+	/*background-color: red;*/
+	background-color: #FFFFFF;
+}
+.content-test{
+	font-size: 12px;
+	color: #999999;
+}
+/*img{
+	display: block;
+	height: 10px;
+	width: 10px;
+	margin-right: 5px;
+	margin-top: 10px;
+}*/
+.content-text{
+	height: 30px;
+	background-color: #FFF8F0;
+	text-align: center;
+	line-height: 30px;
+	overflow: hidden;
+}
+/*登陆两个按钮*/
+.cla{
+	width: 347px;
+	height: 55px;
+	border-bottom: 1px solid orange;
+}
+li{
+	float: left;
+	width: 173px;
+	/*height: 50px;*/
+}
+li .ul-a{
+	display: block;
+	/*width: 173px;*/
+	height: 50px;
+	color: #666666;
+	text-align: center;
+	margin: 0 auto;
+	line-height: 50px;
+}
+.login-ul .li-middle{
+	width: 1px;
+}
+li .empty{
+	float: left;
+	width: 1px;
+	height: 20px;
+	margin-top: 17px;
+	background-color: blue;
+	
+}
+.cla .login-ul li a:hover{
+	color: #E4393C;
+}
+li .ul-a.active{
+	color: #E4393C;
+}
+/*账号和密码两个输入框*/
+.phone{
+	width: 304px;
+	height: 38px;
+	border-width: 1px;
+	/*background-color: pink;*/
+	margin: 0 auto;
+	margin-top: 33px;
+	margin-bottom: 20px;
+	border-style: solid;
+}
+.phone-img{
+	display: block;
+	float: left;
+	width: 39px;
+	height: 38px;
+	/*background-color: red;*/
+	background: url(images/pwd-icons-new.png) no-repeat center;
+	background-position: 0 0;
+
+}
+ .phone-text{
+	float: left;
+	height: 34px;
+	width: 260px;
+	text-indent: 10px;
+	line-height: 260px;
+	margin: 2px auto;
+	border:none;
+	outline: none;
+}
+.phone-img.pass {
+    background-position: -48px 0;
+}
+.forget{
+	width: 306px;
+	height: 18px;
+	/*background-color: red;*/
+	margin: 0 auto;
+	line-height: 18px;
+}
+.forget a{
+	float: right;
+	/*width: 48px;*/
+	height: 18px;
+	color: #666666;
+}
+.forget a:hover{
+	text-decoration: underline;
+	color: #E4393C;
+}
+.submit{
+	width: 306px;
+	height: 34px;
+	background-color: #E4393C;
+	margin: 0 auto;
+	margin-top: 20px;
+}
+.submit a{
+	display: block;
+	width: 306px;
+	height: 34px;
+	color: #FFFFFF;
+	text-align: center;
+	line-height: 34px;
+	font-size: 18px;
+}
+/*QQ微信登录和注册*/
+.big{
+	width: 346px;
+	height: 50px;
+	border-top: 1px solid blue;
+	margin-top: 40px;
+}
+.social{
+	width: 306px;
+	height: 50px;
+	background-color: #FCFCFC;
+	margin: 0 auto;	
+}
+/*三个样式相似，公共部分*/
+.social .social-public{
+	float: left;;
+	height: 50px;
+	width: 48px;
+}
+.social .qq-img{
+	float: left;
+	width: 20px;
+	height: 35px;
+	background: url(images/qq-wx.png) no-repeat center;
+	/*background-color: blue;*/
+	background-position: 0 5px;
+	margin: 0 auto;
+	margin-top: 10px;
+}
+.social-public .qq{
+	float: left;
+	/*background-color: red;*/
+	width: 24px;
+	height: 50px;
+	text-align: center;
+	line-height: 50px;
+	color: #666666;
+	font-size: 6px;
+	margin-left: 2px;
+}
+.social .line{
+	float: left;
+	width: 1px;
+	height: 20px;
+	background-color: red;
+	margin-left: 15px;
+	margin-top: 15px;
+
+}
+.social-public .qq:hover{
+	color: #E4393C;
+	text-decoration: underline;
+}
+.wechat{
+	float: left;
+}
+/*微信不同部分*/
+.qq-img.wx{
+	background-position: -20px 5px;
+}
+.social-public.wechat{
+	margin-left: 20px;
+}
+.social-public.last{
+	margin-left: 80px;
+	width: 88px;
+}
+/*注册不同部分*/
+.qq.l{
+	width: 58px;
+	height: 50px;
+	font-size: 10px;
+}
+.qq-img.la{
+	background: url(images/pwd-icons-new.png) no-repeat center;
+	background-position: -100px -67px;
+}
+/*底部*/
+.bottom{
+	/*width: 990px;*/
+	height: 100px;
+	/*background-color: red;*/
+	margin-top: 15px;
+}
+.bottom .up-bottom{
+	width: 990px;
+	height: 45px;
+	/*background-color: pink;*/
+	margin: 0 auto;
+}
+/*底部列表部分*/
+.bottom-ul .cl{
+	width: 90px;
+	height: 55px;
+	font-size: 10px;
+	text-align: center;
+	line-height: 55px;
+	/*margin: 6px 6px;*/
+}
+.bottom-ul .cl .bottom-a{
+	color: #7A6670;
+}
+/*底部竖线部分*/
+.cl.mid{
+	width: 1px;
+	height: 20px;
+	background-color: orange;
+	margin-top: 18px;
+}
+.cl .bottom-a:hover{
+	color: #E4393C;
+}
+.zzz{
+	height: 17px;
+	width: 990px;
+	margin: 0 auto;
+}
+.zzz .xxx{
+	font-size: 12px;
+	text-align: center;
+}

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="lib/jquery-3.4.1.js"></script>
+    <style>
+        .mask{
+            position: fixed;
+            left: 0;
+            top: 0;
+            display: none;
+            height: 100%;
+            width: 100%;
+            background-color: rgb(0,0,0,.5);
+        }
+        .mask .content{
+            width: 600px;
+            height: 400px;
+            margin: 100px auto;
+            background-color: #fff;
+            overflow: hidden;
+        }
+        .content .form-item{
+            width: 400px;
+            margin: 50px auto;
+        }
+    </style>
+</head>
+<body>
+    <table border="1" cellpadding="10">
+        <tr class="special">
+            <th>序号</th>
+            <th>姓名</th>
+            <th>年龄</th>
+            <th>性别</th>
+            <th>操作</th>
+        </tr>
+        <!-- <tr><td>0</td><td>张三</td><td>25</td><td>男</td><td><button class="del">删除</button><button class="set">修改</button></td></tr> -->
+    </table>
+    <button class="btn">添加表格元素</button>
+    <button class="btn1">新增数据</button>
+    <div class="mask">
+        <div class="content">
+                <div class="form-item">
+                    姓名: <input class="username" type="text">
+                </div>
+                <div class="form-item">
+                    年龄: <input class="age" type="text">
+                </div>
+                <div class="form-item">
+                    性别: 男:<input class="sex" type="radio" name="sex" value="1">  女: <input class="sex" type="radio" name="sex" value="0">
+                </div>
+            <button class="sure">确定</button>
+            <button class="console">取消</button>
+        </div>
+        
+    </div>
+    <script>
+        var users = [
+            {
+                name:'张三',
+                age:27,
+                sex:'男'
+            },
+            {
+                name:'李四',
+                age:28,
+                sex:'男'
+            },
+            {
+                name:'小红',
+                age:18,
+                sex:'女'
+            }
+        ];
+
+        var newUsers = [
+            {
+                name:'王五',
+                age:26,
+                sex:'男'
+            },
+            {
+                name:'赵六',
+                age:22,
+                sex:'男'
+            },
+            {
+                name:'小花',
+                age:20,
+                sex:'女'
+            }
+        ];
+        var isEdit = false;
+        var count = 0;
+        var temp = null;
+        addLi(users);
+        function addLi(array) {
+            for (var i = 0; i < array.length; i++) {
+                var str = null;
+                str =  $('<tr><td></td><td>'+array[i].name+'</td><td>'+array[i].age+'</td><td>'+array[i].sex+'</td><td><button class="del">删除</button><button class="set">修改</button></td></tr>');
+                // console.log(str);
+                count++;
+                //插入的是节点
+                $('table').append(str);
+            };
+        }
+        
+        
+        // 在表格中添加新的数据
+        $('.btn').click(function () {
+            count++
+            if(newUsers.length>0){
+                var newStr = newUsers.shift();
+                var str = null;
+                str =  $('<tr><td>'+count+'</td><td>'+newStr.name+'</td><td>'+newStr.age+'</td><td>'+newStr.sex+'</td><td><button class="del" onclick="decrease($(this))">删除</button><button class="set" onclick="amend($(this))">修改</button></td></tr>');
+                $('table').append(str);
+            }else{
+                alert('没有新用户了');
+            }
+        });
+
+        //新增按钮
+        $('.btn1').click(function () {
+            $('.sex').prop('checked',false)
+            $('.mask').fadeIn('slow');
+            isEdit = false;
+        });
+
+        
+        var createUser = [];
+        //mask消失
+        function disappear() {
+            $('.username').val(null) ;
+            $('.age').val(null) ;
+            $('.sex').prop('checked',false);
+            $('.mask').fadeOut(2000);
+        }
+
+        //获取input中新的值
+        function create() {
+            var creatName = $('.username').val();
+            var createAge = $('.age').val();
+            // console.log($('.sex:checked').val());
+            var createSex = $('.sex:checked').val();
+            createUser = [{
+                name:creatName,
+                age :createAge,
+                sex:createSex==1?'男':'女',
+            }];
+            return createUser;
+        }
+
+        //mask中确定按钮
+        $('.sure').click(function () {
+            if (isEdit) {
+                var userArr = create();
+                console.log (userArr);
+                console.log(temp);
+                temp.parent().parent().children().eq(1).text(userArr[0].name);
+                temp.parent().parent().children().eq(2).text(userArr[0].age);
+                temp.parent().parent().children().eq(3).text(userArr[0].sex);
+            }else{
+                var userArray = create();
+                addLi(userArray);
+            }           
+            disappear();
+        });
+
+        //mask取消按钮
+        $('.console').click(function () {
+            disappear();
+        })
+
+        //删除
+        $('.del').click(function (event) {
+            $(this).parent().parent().remove();   
+        })
+
+        // 新添加表单元素删除
+        function decrease($el) {
+            $el.parent().parent().remove();
+        }
+
+        // 新添加表单元素修改
+        function amend($el) {
+            modifi($el);
+        }
+
+        //修改
+        $('.set').click(function () {
+            modifi($(this));
+        })
+        //获取表格中的text,填充到input里面
+        function modifi($element) {
+            $('.mask').fadeIn('slow');
+            isEdit = true;
+            temp = $element
+            //把要修改的信息填充到input里面
+            var $node = $element.parent().parent().children()
+            // console.log($node);
+            $('.username').val($node.eq(1).text());
+            $('.age').val($node.eq(2).text());
+            console.log($('.sex'));
+            //修改性别的选中状态,true选中,false未选中
+            $node.eq(3).text()=='男'?($(".sex[value='1']").prop('checked',true)):($(".sex[value='0']").prop('checked',false));
+        }
+    </script>
+</body>
+</html>

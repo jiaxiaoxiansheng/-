@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="lib/jquery-3.4.1.js"></script>
+    <style>
+        ul{
+            list-style: none;
+            width: 1000px;
+            height: 460px;
+            overflow: hidden;
+            margin: 100px auto;
+        }
+        .items{
+            float: left;
+            width: 200px;
+            height: 460px;
+        }
+        /* .items img{
+            width: 200px;
+            height: 460px;
+        } */
+    </style>
+</head>
+<body>
+    <ul>
+        <li class="items">
+            <img src="img/m1.jpg" alt="">
+        </li>
+        <li class="items">
+            <img src="img/m2.jpg" alt="">
+        </li>
+        <li class="items">
+            <img src="img/m3.jpg" alt="">
+        </li>
+        <li class="items">
+            <img src="img/m4.jpg" alt="">
+        </li>
+        <li class="items">
+            <img src="img/m5.jpg" alt="">
+        </li>
+    </ul>
+    <script>
+        var timer = null;
+        $('.items').mouseenter(function () {
+            clearTimeout(timer);
+            // console.log(timer);
+            var $temp = $(this);
+            timer = setTimeout(function () {
+                $temp.siblings().animate({
+                    width:'100px',
+                })
+                $temp.animate({
+                    width:'600px',
+                })
+            },400);
+            
+        });
+
+        $('ul').mouseleave(function () {
+            clearTimeout(timer);
+            $('ul').children().animate({
+                width:'200px',
+            })
+        })
+    </script>
+</body>
+</html>

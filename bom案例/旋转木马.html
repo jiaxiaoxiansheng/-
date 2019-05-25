@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        ul{
+            list-style: none;
+        }
+        .rorate{
+            position: relative;
+            width: 1200px;
+            height: 500px;
+            margin: 100px auto;
+            overflow: hidden;
+        }
+        .rorate ul{
+            width: 1200px;
+            height: 500px;
+        }
+        .rorate ul li{
+            position: absolute;
+            float: left;
+        }
+        .rorate ul li img{
+            width: 100%;
+            height: 100%;
+        }
+        .rorate ul .li_1{
+            position: absolute;
+            left: 50px;
+            top: 70px;
+            width: 400px;
+            height: 150px;
+            z-index: 2;
+            opacity: 0.2;
+        }
+        .rorate ul .li_2{
+            position: absolute;
+            left: 0px;
+            top: 120px;
+            width: 600px;
+            height: 210px;
+            z-index: 3;
+            opacity: 0.8;
+        }
+        .rorate ul .li_3{
+            position: absolute;
+            left: 200px;
+            top: 100px;
+            width: 800px;
+            height: 300px;
+            z-index: 4;
+        }
+        .rorate ul .li_4{
+            position: absolute;
+            left: 600px;
+            top: 120px;
+            width: 600px;
+            height: 210px;
+            z-index: 3;
+            opacity: 0.8;
+        }
+        .rorate ul .li_5{
+            position: absolute;
+            left: 750px;
+            top: 70px;
+            width: 400px;
+            height: 150px;
+            z-index: 2;
+            opacity: 0.2;
+        }
+        .btn1{
+            position: absolute;
+            right: 0;
+            top: 240px;
+            font-size: 30px;
+            background-color: blanchedalmond;
+            width: 40px;
+            height: 40px;
+            z-index: 10;
+        }
+        .btn2{
+            position: absolute;
+            left: 0;
+            top: 240px;
+            font-size: 30px;
+            background-color: blanchedalmond;
+            width: 40px;
+            height: 40px;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+    <div class="rorate">
+        <ul>
+            <li class="li_1"><img src="./img/m1.jpg" alt=""></li>
+            <li class="li_2"><img src="./img/m4.jpg" alt=""></li>
+            <li class="li_3"><img src="./img/m5.jpg" alt=""></li>
+            <li class="li_4"><img src="./img/m6.jpg" alt=""></li>
+            <li class="li_5"><img src="./img/m7.jpg" alt=""></li>
+        </ul>
+        <button class="btn1">></button>
+        <button class="btn2"><</button>
+    </div>
+    <script src="lib/my.js"></script>
+    <script>
+        var right = $(".btn1");
+        console.log(right);
+        var liArr = $("ul").children;
+        targetArr = [
+            {
+                left: "50px",
+                top: "70px",
+                width: "400px",
+                height: "150px",
+                zIndex: 2,
+                opacity: 0.2,
+            },
+            {
+                left: "0px",
+                top: "120px",
+                width: "600px",
+                height: "210px",
+                zIndex: 3,
+                opacity: 0.8,
+            },
+            {
+                left: "200px",
+                top: "100px",
+                width: "800px",
+                height: "300px",
+                zIndex: 4,
+                opacity: 1,
+            },  
+            {
+                left: "600px",
+                top: "120px",
+                width: "600px",
+                height: "210px",
+                zIndex: 3,
+                opacity: 0.8,
+            }, 
+            {
+                top: "50px",
+                left: "750px",
+                width: "400px",
+                height: "150px",
+                zIndex: 2,
+                opacity: 0.2,
+            }       
+        ];
+        var rorate = setInterval(function () {
+            targetArr.push(targetArr.shift());
+            for (var i = 0; i < liArr.length; i++) {
+                slowly(liArr[i],targetArr[i]);
+            }
+        },1500);
+        right.onclick = function () {
+            clearInterval(rorate);
+            //下一个,把第一个删除添加到最后一个的后面:12345--->23451,这样就一次改变样式
+            targetArr.push(targetArr.shift());
+            for (var i = 0; i < liArr.length; i++) {
+                slowly(liArr[i],targetArr[i]);
+            }
+        }
+
+        
+
+        // function mulStyle(ele,targetObj) {
+        //     clearInterval(ele.time);
+        //     ele.time = setInterval(function(){
+        //         var start,step,target;
+        //         var status = true;
+        //         for (var key in targetObj) {
+        //             if (key === "zIndex") {
+        //                 ele.style[key] = targetObj[key];
+        //                 continue;
+        //             }
+        //             //如果可以是透明度,数值太小,step永远小于1,需要先放大值,最后再缩小值
+        //             if (key === "opacity") {
+                       
+        //                 start = parseInt(getStyle(ele,key) * 100);
+        //                  //获取终点值,透明度的值不能取整,0.4取整会变成0
+        //                 target = targetObj[key] * 100;
+        //             }else{
+        //                 //设置起始位置,是盒子原本的样式值
+        //                 start = parseInt(getStyle(ele,key));
+        //                  //获取终点值
+        //                 target = parseInt(targetObj[key]);
+        //             }
+        //             step = (target - start) / 10;
+        //             if (Math.abs(step) < 1) {
+        //                 step = step > 0 ? Math.ceil(step) : Math.floor(step);
+        //             }
+        //             if (target !== start + step) {
+        //                 status = false;
+        //             };
+        //             console.log(start,step,target)
+        //             if (key === "opacity") {
+        //                 //值要缩小
+        //                 ele.style[key] = (start + step) / 100;
+        //                 console.log(ele.style.opacity)
+        //             }else{
+        //                 ele.style[key] = start + step + "px";
+        //             } 
+        //         }
+        //         if (status) {
+        //             console.log('stop');
+        //             clearInterval(ele.time);
+        //         }
+        //     }, 17);
+        // }
+
+        //缓动动画
+        function slowly(ele,targetObj) {
+            var start,step,target;
+            clearInterval(ele.timer);
+            console.log(targetObj);
+            ele.timer = setInterval(function(){
+                var status = true;
+                for (var key in targetObj) {
+                    if (key === "zIndex") {
+                        ele.style.zIndex = targetObj[key];
+                        continue;
+                    }
+                    if (key === "opacity") {
+                        //透明度要放大,透明度可能有多位小数,扩大100倍,任然可能是小数
+                        start = parseInt(getStyle(ele,key) * 100);
+                        target = targetObj[key] * 100;
+                    }else{
+                        start = parseInt(getStyle(ele,key));
+                        target = parseInt(targetObj[key]);
+                    };
+                    step = (target - start) / 10;
+                    console.log(key);
+                    console.log(start,step,target);
+                    if (Math.abs(step)<1) {
+                        step = step > 0 ? Math.ceil(step) : Math.floor(step);
+                    };
+                    if (target !== start + step){
+                        status = false;
+                    };
+                    if (key === "opacity") {
+                        ele.style[key] = (start + step) / 100;
+                    }else{
+                        ele.style[key] = start + step + "px";
+                    }
+                    
+                }
+                if (status) {
+                    clearInterval(ele.timer);
+                }
+            }, 17);
+        }
+
+        //获取内联和外联的样式值
+        function getStyle(ele,styleName) {
+            if (ele.currentStyle) {
+                return ele.currentStyle[styleName];
+            }else{
+                return window.getComputedStyle(ele,null)[styleName];
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+
+        }
+        .content{
+            float: left;
+            position: relative;
+            width: 450px;
+            height: 450px;
+            border: 1px solid red;
+            margin-left: 50px;
+            margin-top: 50px;
+        }
+        .content .mask{
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100px;
+            height: 100px;
+            background-color: rgba(0, 0, 0, .5);
+        }
+        .content img{
+            width: 100%;
+            height: 100%;
+            user-select: none;
+        }
+        .detail{
+            /* display: none; */
+            position: relative;
+            float: left;
+            height: 450px;
+            width: 450px;
+            border: 1px solid red;
+            margin-left: 50px;
+            margin-top: 50px;
+            overflow: hidden;
+        }
+        .detail img{
+            position: absolute;
+            width: 300%;
+            height: 300%;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <img src="./img/1.jpg" alt="" ondragstart="return false;">
+        <div class="mask"></div>
+    </div>
+    <div class="detail">
+        <img src="./img/1.jpg" alt="" ondragstart="return false" class="det-img">
+    </div>
+    <script>
+        var mask = document.getElementsByClassName('mask')[0];
+        var content = document.getElementsByClassName('content')[0];
+        var img = document.getElementsByClassName('det-img')[0];
+        var detail = document.getElementsByClassName('detail')[0];
+
+        mask.onmousedown = function (e) {
+            // detail.style.display = "block";
+            e = event || window.event;
+            //鼠标最初相对于mask的位置
+            var originX = e.offsetX;
+            var originY = e.offsetY;
+            content.onmousemove = function (e) {
+                e = event || window.event;
+                //获取鼠标移动后的现在的位置,得到现在mask的位置
+                //mask是相对于content定位,并不是body,要减去content的left
+                var distanceX = e.pageX - originX - content.offsetLeft;
+                var distanceY = e.pageY - originY - content.offsetTop;
+                if (distanceX<=0) {
+                    distanceX = 0;
+                }else if (distanceX>(content.offsetWidth-mask.offsetWidth)) {
+                    distanceX = content.offsetWidth - mask.offsetWidth;
+                }
+                if (distanceY<=0) {
+                    distanceY = 0;
+                }else if(distanceY>=(content.offsetHeight - mask.offsetHeight)){
+                    distanceY = content.offsetHeight - mask.offsetHeight;
+                }
+                mask.style.left = distanceX + "px";
+                mask.style.top= distanceY + "px";
+
+                img.style.left = -distanceX*3 + "px";
+                img.style.top = -distanceY*3 + "px";
+            }
+        }
+        window.onmouseup = function () {
+            // detail.style.display = "none";
+            content.onmousemove = null;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <p>今天距离<span></span>还有</p>
+    <p></p>
+    <script>
+        // 倒计时
+        var p1 = document.getElementsByTagName('p')[0];
+        var p2 = document.getElementsByTagName('p')[1];
+        var spanEl = document.getElementsByTagName('span')[0];
+        var future = '2019-05-13 21:00';
+        spanEl.innerText = future;
+        // 把未来的时间(字符串)转换成时间格式
+        var futureTime = new Date('2019-05-13 21:00');
+        console.log(futureTime);
+
+        function get() {
+            // 获取现在的时间
+            var nowTime = new Date;
+            console.log(nowTime);
+            //先获取当前时间的时间戳,然后再获取未来时间的时间戳
+            // 两者之间的差就是现在的倒计时
+            var temp = futureTime.getTime() - nowTime.getTime();
+            console.log(temp);
+
+            //获取多少小时  1小时=60*60*1000
+            var HOURS = Math.floor(temp/(60*60*1000));
+            // console.log(HOURS);
+            var MIN = Math.floor((temp%(60*60*1000)/(60*1000)));
+            // console.log(MIN);
+            var SEC = Math.floor((temp%(60*1000))/1000);
+            // console.log(SEC);
+            function cal(num) {
+                return num>=10?num:'0'+num+'';
+            }
+            var str = ''+cal(HOURS)+'时-'+cal(MIN)+'分-'+cal(SEC)+'秒';
+            console.log(str);
+        }
+        setInterval(function() {
+            var newStr = get();
+            p2.innerText = newStr;
+        }, 1000);
+        
+        // p2.innerText = str;
+        
+    </script>
+</body>
+</html>

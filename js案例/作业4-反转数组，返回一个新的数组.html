@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		var arr = [2,12,5,62,34,9]
+		function reverse(array){
+			var int = Math.ceil(array.length/2);
+		    console.log(int);
+		    for (var i = 0; i < int; i++) {
+			     var temp = array[i];
+			     console.log(array[i]);
+			     console.log(array[array.length-1-i]);
+			     array[i] = array[array.length-1-i];
+			     console.log(array[i]);
+			
+			     array[array.length -1 - i] = temp;
+			     console.log(array[array.length-1-i]);
+			     console.log(array);
+		     }
+		     console.log(array);
+		     return array;
+		}
+		var arr1 = reverse(arr);
+		console.log(arr1);		
+	</script>
+</body>
+</html>

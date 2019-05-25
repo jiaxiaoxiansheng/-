@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        ul{
+            position: relative;
+            list-style: none;
+            width: 940px;
+            height: 300px;
+            border: 1px solid pink;
+            margin: 50px auto;
+        }
+        ul li{
+            position: absolute;
+            left: 0px;
+            bottom: 0;
+            background-color: antiquewhite;
+            float: left;
+            width: 50px;
+            height: 100px;
+        }
+        .operate{
+            position: absolute;
+            top: 380px;
+            left: 500px;
+            width: 180px;
+            height: 50px;
+        }
+        button{
+            margin-left: 20px;
+            font-size: 15px;
+            height: 40px;
+            background-color: #fff;
+        }
+        .active{
+            background-color: blueviolet;
+        }
+        .done{
+            background-color: aquamarine;
+        }
+    </style>
+</head>
+<body>
+    <ul>
+        <!-- <li></li> -->
+    </ul>
+    <div class="operate">
+        <button>生成表格</button>
+        <button>表格排序</button>
+    </div>
+    <script src="lib/my.js"></script>
+    <script>
+        var ulEl = $("ul");
+        var btns = $('button')
+        var liArr = ulEl.children;
+        
+        btns[0].onclick = function() {
+            var str = "";
+            var hArr = [];
+            for (var i = 0; i < 10; i++) {
+                //每一个li的height(20-200)公式:Math.floor(Math.random()*(200-20)) + 20
+                var h = Math.floor(Math.random()*180) + 20;
+                //保证每一个height是不相等的
+                if (hArr.indexOf(h) === -1) {
+                    hArr.push(h); 
+                }else{
+                    // 如果已经存在,则再循环一次,保证hArr.length=10
+                    i--
+                }                
+            }
+            for (var i = 0; i < 10; i++) {
+                //每一个li的left
+                var l = 40 + 90*i;
+                str = str + '<li style="left:'+l+'px;height:'+hArr[i]+'px "></li>';
+            }
+            ulEl.innerHTML = str;
+        }
+        btns[1].onclick = function () {
+            rank(liArr);
+        }
+        function rank(array) {
+            // for (var j = 0; j < array.length - 1; j++) {
+            //     //当i<10,j=0时,如果i=9,找不到第i+1个元素
+            //     for (var i = 0; i < array.length - j - 1; i++) {
+            //         if (array[i].offsetHeight > array[i+1].offsetHeight) {
+            //             ulEl.insertBefore(array[i+1],array[i]);
+            //             var temp = array[i+1].offsetLeft;
+            //             // array[i+1].style.left = array[i].offsetLeft + "px";
+            //             // array[i].style.left = temp + "px";
+            //             slowly(array[i+1],array[i].offsetLeft);
+            //             slowly(array[i],temp);
+            //         } 
+            //     }
+            // }
+
+
+            //动画时间太慢,还未执行完,循环已循环完毕
+            var i = 0;
+            var j = 0;
+            var timer = setInterval(function(){
+                if (array[i].offsetHeight > array[i+1].offsetHeight) {
+                    //改变liArr中位置,left也要互换,否则显示时并没有改变li位置
+                    //li互换
+                    ulEl.insertBefore(array[i+1],array[i]);
+                    var temp = array[i+1].offsetLeft;
+                    slowly(array[i+1],array[i].offsetLeft);
+                    slowly(array[i],temp);
+                }
+                i++;
+                if (i === liArr.length - 1 -j) {
+                    addClass(array[i],"done");
+                    i = 0
+                    //当第一次循环执行完,让j+1,执行第二次循环
+                    j++
+                }
+                if (j === liArr.length - 1) {
+                    
+                    clearInterval(timer);
+                }
+            },500); 
+        }
+
+        function slowly(ele,target) {
+            var start,step;
+            addClass(ele,'active');
+            clearInterval(ele.timer);
+            ele.timer = setInterval(function(){
+                start = ele.offsetLeft;
+                step = (target - start)/10;
+                if (Math.abs(step) < 1) {
+                    step = step > 0 ? Math.ceil(step) : Math.floor(step)
+                }
+                if (target === start + step) {
+                    removeClass(ele,"active");
+                    clearInterval(ele.timer);
+                }
+                ele.style.left = start + step +"px";
+            }, 17);
+        }
+        //添加多个类名
+        // 获取旧类名
+        // 判断新类名是否在旧类名存在
+        // 如果存在, 返回;  如果不存在  添加
+        // 返回新类名
+        function addClass(ele) {
+           var old = ele.getAttribute("class");
+           if (old) {
+               for (var i = 1; i < arguments.length; i++) {
+                   if (old.indexOf(arguments[i]) === -1) {
+                       old = old + " " + arguments[i];
+                   }else{
+                       continue;
+                   }
+               }
+               ele.setAttribute("class",old);
+           }else{
+            //    arguments[ele,"name","name","name"]
+                var str = "";
+               for (var i = 1; i < arguments.length; i++) {
+                 str = str + arguments[i] + " ";  
+               }
+               ele.setAttribute("class",str);
+           }
+        }
+        //删除一个类名
+        function delClass(ele,className) {
+            var oldClass = ele.getAttribute('class');
+            if (oldClass) {
+                var arr = oldClass.split(' ');
+                if (arr.indexOf(className) !== -1) {
+                    arr.splice(arr.indexOf(className),1);
+                    ele.setAttribute('class',arr.join(" "));
+                }
+            }
+        }
+        //删除多个类名
+        function removeClass(ele) {
+            var old = ele.getAttribute('class');
+            if (old) {
+                var arr = old.split(' ');
+                for (var i = 1; i < arguments.length; i++) {
+                    if (arr.indexOf(arguments[i]) !== -1) {
+                        arr.splice(arr.indexOf(arguments[i]),1);
+                    }else{
+                        continue;
+                    }
+                }
+                ele.setAttribute('class',arr.join(" "));
+            }
+        }
+
+    </script>
+</body>
+</html>

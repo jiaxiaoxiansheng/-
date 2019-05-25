@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body{
+            height: 2000px;
+        }
+        .box{
+            position: absolute;
+            bottom: 80px;
+            right: 50px;
+            background-color: bisque;
+            padding: 45px 15px;
+            font-size: 20px;
+            width: 50px;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">一加7PRo真香</div>
+    <script>
+        var box = document.getElementsByClassName('box')[0];
+        var originY = box.offsetTop;
+
+        window.onscroll = function () {
+            var h = parseInt(scrollTop());
+            var target = originY + h;
+            // slowly(box,target);
+            average(box,target);
+        }
+
+        //缓动动画
+        var timer = null;
+        function slowly(ele,target) {
+            var start,step;
+            clearInterval(timer);
+            timer = setInterval(function (){
+                start = box.offsetTop;
+                step = (target - start)/10;
+                if (Math.abs(step)<1) {
+                    step = step > 0 ? Math.ceil(step) : Math.floor(step);
+                }
+                if (start + step === target){
+                    clearInterval(timer);
+                    ele.style.top = target + "px";
+                }
+                ele.style.top = start + step + "px";
+            }, 17);
+        }
+
+        //匀速动画
+        var time = null;
+        function average(ele,target) {
+            var start,step,cha;
+            clearInterval(time);
+            time = setInterval(function(){
+                step = target > start ? 10 : -10;
+                start = ele.offsetTop; 
+                cha = target- start;
+                if(Math.abs(cha) <= Math.abs(step)){
+                    console.log('stop');
+                    clearInterval(time);
+                    ele.style.top = target + "px";
+                }
+                ele.style.top = start + step + "px";
+            },17)
+        }
+
+        function scrollTop() {
+            return document.documentElement.scrollTop || document.pageYOffset || document.body.scrollTop;
+        }
+    </script>
+</body>
+</html>

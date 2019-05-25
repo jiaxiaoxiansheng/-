@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.css">
+    <script src="js/jquery-3.4.1.js"></script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        ul{
+            list-style: none;
+        }
+        a{
+            text-decoration: none;
+        }
+        .banner{
+            /* z-index: 10; */
+            position: relative;
+            width: 1226px;
+            height: 460px;
+            margin: 0 auto;
+            margin-top: 100px;
+        }
+        .banner .right{
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            width: 40px;
+            height: 70px;
+            font-size: 36px;
+            line-height: 70px;
+            margin-top: -20px;
+            text-align: center;
+            color: #626262;
+        }
+        .banner .right:hover {
+            background-color: #626262;
+            color: #fff;
+        }
+        .banner .left{
+            position: absolute;
+            left: 226px;
+            top: 50%;
+            width: 40px;
+            height: 70px;
+            font-size: 36px;
+            line-height: 70px;
+            margin-top: -35px;
+            text-align: center;
+            color: #626262;
+        }
+        .banner .left:hover {
+            background-color: #626262;
+            color: #fff;
+        }
+        .banner .ban-ul{
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+        .banner .ban-ul .ban-items{
+            float: left;
+            margin-left: 10px;
+            width: 10px;
+            height: 10px;
+            border: 2px solid #626262;
+            border-radius: 50%;
+            background-color: #523439;
+            background-clip: padding-box;
+        }
+        .ban-ul .ban-items.active{
+            background-color: #fff;
+        }
+        .ban-ul .ban-items a{
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        .pro-ul{
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 226px;
+            height: 440px;
+            background-color: #C6C0B7;
+            padding-top: 20px;
+        }
+        .pro-ul .pro-items{
+            width: 226px;
+            height: 42px;
+        }
+        .pro-ul .pro-items .pro-a{
+            position: relative;
+            display: block;
+            width: 226px;
+            height: 42px;
+        }
+        .pro-ul .pro-items .alert{
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 226px;
+            width: 1000px;
+            height: 460px;
+            background-color: #fff;
+        }
+        .pro-items .alert.active{
+            width: 500px;
+        }
+        .pro-ul .pro-items:hover .alert{
+            display: block;
+        }
+        .pro-items .pro-a .text{
+            position: absolute;
+            top: 0;
+            left: 20px;
+            height: 42px;
+            line-height: 42px;
+            font-size: 16px;
+            color: #fff;
+        }
+        .pro-items .pro-a i{
+            position: absolute;
+            top: 0;
+            right: 10px;
+            height: 42px;
+            line-height: 42px;
+            color: #fff;
+        }
+        .pro-items .alert .alert-items{
+            float: left;
+            width: 250px;
+            height: 80px;
+            /* background-color: red; */
+        }
+        .alert .alert-items .alert-a{
+            display: block;
+            width: 250px;
+            height: 80px;
+        }
+        .alert-items .alert-a .alert-text{
+            font-size: 16px;
+            color: #333333;
+            height: 80px;
+            line-height: 80px;
+            text-align: center;
+        }
+        .alert-items .alert-a .alert-img{
+            display: inline-block;
+            vertical-align: middle;
+            height: 80px;
+        }
+    </style>
+</head>
+<body>
+    <div class="banner">
+        <img src="img/m1.jpg" alt="" class="ban-img">
+        <a href="javascript:;" class="right" onclick="swipeImg(true)">></a>
+        <a href="javascript:;" class="left" onclick="swipeImg(false)"><</a>
+        <ul class="ban-ul">
+            <!-- <li class="ban-items active"><a href="javascript:;"></a></li> -->
+        </ul>
+
+        <!-- 左侧产品介绍栏 -->
+            <ul class="pro-ul">
+                <li class="pro-items">
+                    <a href="javascript:;" class="pro-a">
+                        <!-- <span class="text">手机</span> -->
+                        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                    </a>
+                    <!-- <ul class="alert act"><li class="alert-items"><a href="" class="alert-a"><img src="img/tel1.png" alt="" class="alert-img"><span class="alert-text">小米MIX3</span></a></li></ul> -->
+                </li>
+            </ul>
+    </div>
+
+    
+    <script src="js/util.js"></script>
+    <script src="data/data.js"></script>
+    <script>
+        var imgEl = document.getElementsByClassName('ban-img')[0];
+        var banUl = document.getElementsByClassName('ban-ul')[0];
+        var aUl = document.getElementsByClassName('right')[0];
+        //左侧ul
+        var proUl = document.getElementsByClassName('pro-ul')[0];
+        //先获得所有li
+        var liArr = banUl.children;
+        //banner图片地址
+        var imgUrl = ['m1.jpg','m2.jpg','m3.jpg','m4.jpg','m5.jpg','m6.jpg']
+        var strUrl = '';
+        for (var i = 0; i < imgUrl.length; i++) {
+            
+            strUrl = strUrl + '<li class="ban-items '+(i==0?' active':'')+'" ><a href="javascript:;" onclick="go('+i+')"></a></li>'
+        }
+        // //动态生成li
+        banUl.innerHTML = strUrl;
+
+        var count = 0;
+
+        // // 设置定时器让图片循环展示
+        var setInt = setInterval(foo, 1000);
+
+        function foo() {
+            imgEl.src = 'img/'+imgUrl[count]+'';                     
+            for (var i = 0; i < imgUrl.length; i++) {
+                delClass(liArr[i],'active');    
+            }
+            addClass(liArr[count],'active');    
+            count++; 
+            if (count==imgUrl.length) {
+                    count = 0;
+                } ;
+        }
+
+        //添加当鼠标放在banner上时计时器停止事件
+        $('.ban-img').mouseenter(function () {
+            clearInterval(setInt);
+        })
+
+        // var count = 0;
+        //右侧和左侧按钮方法
+        function swipeImg(isRight) {
+            // 判断点击的是右侧还是左侧
+            if (isRight) {
+                console.log(count);
+                count++;
+                if (count==imgUrl.length) {
+                    count = 0;
+                }
+            }else{
+                count--;
+                if (count== -1) {
+                    count = imgUrl.length-1
+                }
+            }
+            // imgEl.src = 'img/'+imgUrl[count]+'';
+            go(count);
+        }
+
+        //li的方法
+        function go(num) {
+            imgEl.src = 'img/'+imgUrl[num]+'';
+
+            //排他，先删除所有，再添加
+             
+            for (var i = 0; i < imgUrl.length; i++) {
+                delClass(liArr[i],'active');    
+            }
+            addClass(liArr[num],'active');
+            count = num;
+        }
+
+        //显示后台数据
+        console.log(colData);
+        //左侧产品二级菜单数据
+        console .log(proData);
+        var proStr = '';
+        
+        // //动态生成左边ul
+        for (var i = 0; i < colData.length; i++) {
+            var array = proData[i];
+            // console.log(array.length);
+            var secondStr = '';
+            for (var j = 0; j < array.length; j++) {
+                // console.log(array[j].img);
+               secondStr = secondStr + '<li class="alert-items"><a href="" class="alert-a"><img src="img/'+array[j].img+'" alt="" class="alert-img"><span class="alert-text">小米MIX3</span></a></li>';
+            }
+
+            var str = '<ul class="alert'+(array.length>4?'':' active')+'">'+secondStr+'</ul>';
+             
+            proStr = proStr +  '<li class="pro-items"><a href="javascript:;" class="pro-a"><span class="text">'+colData[i]+'</span><i class="fa fa-chevron-right" aria-hidden="true"></i></a>'+str+'</li>';
+        }
+        proUl.innerHTML = proStr;
+ 
+        
+    </script>
+</body>
+</html>

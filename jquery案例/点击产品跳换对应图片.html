@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="lib/jquery-3.4.1.js"></script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        ul{
+            list-style: none;
+        }
+        .center{
+            height: 278px;
+            width: 302px;
+            margin: 0 auto;
+            margin-top: 200px;
+            border: 1px solid pink;
+        }
+        .center .right{
+            float: left;
+            height: 270px;
+            width: 50px;
+        }
+        .center .right .items{
+            border-bottom: 1px solid pink;
+            height: 30px;
+            width: 50px;
+            font-size: 12px;
+            text-align: center;
+            line-height: 30px;
+        }
+        .center .right .items:hover{
+            background-color: red;
+            color: #fff;
+        }
+        .center img{
+            float: left;
+            display: block;
+            height: 278px;
+            width: 200px;
+            border: 1px solid pink;
+            border-top: none;
+        }
+        .center .left{
+            float: left;
+            height: 270px;
+            width: 50px;
+        }
+        .center .left .items{
+            border-bottom: 1px solid pink;
+            height: 30px;
+            width: 50px;
+            font-size: 12px;
+            text-align: center;
+            line-height: 30px;
+        }
+        .center .left .items:hover{
+            background-color: red;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="center">
+        <ul class="right">
+            <!-- <li class="items"></li> -->
+        </ul>
+        <img src="img/男靴.jpg" alt="" >
+        <ul class="left">
+            <li class="items"></li>
+        </ul>
+    </div>
+    <script src="data/data.js"></script>
+    <script>
+        var rightEl = $('.right');
+        // console.log($('.right'));
+        // console.log($('.right')[0]);
+        var leftEl = $('.left')
+        //得到的是jQuery对象
+        // console.log(rightEl);
+        console.log(data);
+
+        var rightArr = data[0];
+        var leftArr = data[1];
+
+        //自动生成;两侧的li
+        create(rightEl,rightArr);
+        create(leftEl,leftArr);
+
+        function create(el,array) {
+            var rightStr = '';
+            for (var i = 0; i < array.length; i++) {
+                var title = array[i].title;
+                rightStr = rightStr + '<li class="items" id="li_'+i+'">'+title+'</li>';
+            }
+            //innerHTML是dom对象属性,要把实参jQuery对象转换成dom对象
+            el[0].innerHTML=rightStr;
+        };
+        // console.log($('.right>li'));
+        // console.log($('.right>li')[0]);
+        //添加鼠标移到右边上面的事件
+        // $('.right>li').mouseenter(function () {
+        //     //要得到现在鼠标悬停在当前li上的img路径
+        //     //回调函数函数里面this指向的就是dom对象
+        //     var liStr = this.id;
+        //     var strArr = liStr.split('_');
+        //     // console.log(strArr);
+        //     var srcStr = rightArr[strArr[1]].img;
+        //     $('img')[0].src = srcStr;
+        // })
+
+        //添加鼠标移到左边上面的事件
+        $('.left>li').mouseenter(function () {
+            var liStr = this.id;
+            var strArr = liStr.split('_');
+            // console.log(strArr);
+            var srcStr = leftArr[strArr[1]].img;
+            $('img')[0].src = srcStr;
+        })
+
+        //原生js添加鼠标移动事件
+        $('.right>li')
+        var ulEl = document.getElementsByClassName('right')[0];
+        var childArr = ulEl.children;
+        for (var i = 0; i < childArr.length; i++) {
+            // console.log($('.right>li')[i]);
+            // console.log($('.right>li').eq(i)[0])
+            $('.right>li')[i].index = i;
+            // $('.right>li')[i].onmouseenter = function () {
+            //     $('img')[0].src = rightArr[this.index].img;
+            // }
+            $('.right>li')[i].onmouseenter = (function (i) {
+                
+                return function () {
+                    $('img')[0].src = rightArr[i].img;
+                }
+            })(i);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+				margin: 0;
+				padding: 0;
+			}
+        .nav{
+            position: fixed;
+            top: 50px;
+            left: 50px;
+            width: 456px;
+            height: 50px;
+        }
+        .nav div{
+            float: left;
+            border: 1px solid black;
+            width: 150px;
+            height: 50px;
+        }
+        .nav .red{
+            background-color: red;
+        }
+        .nav .blue{
+            background-color: blue;
+        }
+        .nav .pink{
+            background-color: pink;
+        }
+        .head{
+            width: 100%;
+            height: 1000px;
+            background-color: red;
+        }
+        .content{
+            width: 100%;
+            height: 1000px;
+            background-color: blue; 
+        }
+        .foot{
+            width: 100%;
+            height: 1000px;
+            background-color: pink;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <div class="red"></div>
+        <div class="blue"></div>
+        <div class="pink"></div>
+    </div>
+    <div class="head"></div>
+    <div class="content"></div>
+    <div class="foot"></div>
+    <script>
+        var head = document.getElementsByClassName('head')[0];
+        var content = document.getElementsByClassName('content')[0];
+        var foot = document.getElementsByClassName('foot')[0];
+        var red = document.getElementsByClassName('red')[0];
+        var blue = document.getElementsByClassName('blue')[0];
+        var pink = document.getElementsByClassName('pink')[0];
+
+        //闪现过去
+        red.onclick = function () {
+            var h = head.offsetTop;
+            window.scroll(0,h);
+            // slowly(h);
+            // average(h);
+        };
+        blue.onclick = function () {
+            var h = content.offsetTop;
+            // window.scroll(0,h);
+            slowly(h);
+            // average(h);
+        };
+        pink.onclick = function () {
+            var h = foot.offsetTop;
+            // window.scroll(0,h);
+            // slowly(h);
+            average(h);
+        }
+
+        //缓动函数
+        var timer = null;
+        function slowly(target) {
+            var start,step;
+            clearInterval(timer)
+            timer = setInterval(function (){
+                start = scrollTop();
+                step = (target - start)/10;
+                if (Math.abs(step) < 1) {
+                    step = step>0? Math.ceil(step) : Math.floor(step);
+                }
+                if (start + step === target) {
+                    clearInterval(timer);
+                }
+                window.scroll(0,start + step);
+            }, 17);
+        }
+
+        // 匀速函数
+        var time = null;
+        function average(target) {
+            var start,step,cha;
+            clearInterval(time)
+            time = setInterval(function () {
+               step = target>start ? 10 :-10;
+               start =  scrollTop();
+               cha = target - start;
+               if (Math.abs(cha) <= Math.abs(step)) {
+                   clearInterval(time);
+                   window.scroll(0,target);
+               }
+               window.scroll(0,step + start);
+            },17)
+        }
+
+        //获取window的卷入高度
+        function scrollTop(){
+            return document.documentElement.scrollTop || document.pageYOffset || document.body.scrollTop;
+        }
+    </script>
+</body>
+</html>

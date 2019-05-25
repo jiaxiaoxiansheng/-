@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script >
+        // 作业: ['刘备','张飞','关羽'] ===> '刘备|张飞|关羽'
+        //数组转换成字符串
+        var  arr = ['刘备','张飞','关羽'];
+        // var str = arr.toString(arr);
+        var str = arr.join('|');
+        console.log(str);
+
+        //作业2：找到数组中每个字母出现的次数["c","a","z","a","a","z","b"]
+        var arr1 = ["c","a","z","a","a","z","b"];
+ 
+    var arrayLetter = [];
+    var count = [];
+    for (var i = 0; i < arr1.length; i++) {
+        //判断字母数组中是否有字母,找元素在数组中的下标，没有元素则为-1
+        if (arrayLetter.indexOf(arr1[i]) == -1) {
+            arrayLetter.push(arr1[i]);
+            count.push(1);
+        }else{
+            //找到count数组下标让count[下标]++；count数组下标==字母数组下标，他们两个一起添加的
+            count[arrayLetter.indexOf(arr1[i])]++
+        }
+        
+    }
+    // function time(array) {
+    //     var obj = {};
+    //     for(var i = 0;i<arr1.length;i++){
+    //          var s = arr1[i];
+    //          var r = obj[s];
+    //          if(r){
+    //             obj[s] ++;
+    //          }else{
+    //             obj[s] = 1;
+    //          }
+    //      }  
+    //      return obj;
+    // }
+    // var obj1 = time(arr1);
+    // console.log(obj1);
+    // for (var key in obj1) {
+    //     console.log(key+'出现了'+obj1[key]+'次');
+    // }
+
+
+    // 4.工资的数组[1500,1200,2000,2100,1800],把工资超过2000的删除
+    var salaryArray = [1500,1200,2000,2100,2200,1800]
+    // for (var i = 0; i < salaryArray.length; i++) {
+    //     if (salaryArray[i]>2000) {
+    //         //把大于两千的元素删除，但是改变了原数组
+    //         var a = salaryArray.splice(salaryArray.indexOf(salaryArray[i]),1);
+
+    //         //删除元素，改变了原数组，原数组的下标也发生了变化，删除一次减少了1
+    //         console.log(salaryArray);//[1500, 1200, 2000, 2200, 1800]
+    //         //让循环的i也要一起减少，才能保持循环
+    //         i--;
+    //     }
+        
+    // }
+
+
+    //从后面删除保持没发生循环元素的下标没有变化
+    for (var i = salaryArray.length ; i >= 0; i--) {
+        if (salaryArray[i]>2000) {
+            //把大于两千的元素删除，但是改变了原数组
+            var a = salaryArray.splice(salaryArray.indexOf(salaryArray[i]),1);
+
+            //删除元素，改变了原数组，原数组的下标也发生了变化，删除一次减少了1
+            console.log(salaryArray);//[1500, 1200, 2000, 2200, 1800]
+            
+        }
+        
+    }
+    </script>
+</body>
+</html>
