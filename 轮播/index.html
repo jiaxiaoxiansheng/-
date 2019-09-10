@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        ul{
+            list-style: none;
+        }
+        .box{
+            position: relative;
+            overflow: hidden;
+            width: 690px;
+            height: 600px;
+            margin: 0 auto;
+        }
+        .ban{
+            position: absolute;
+            height: 600px;
+            width: 690px;
+            display: flex;
+            justify-content: flex-start
+        }
+        .box div{
+            position: absolute;
+            top: 265px;
+            background-color: gray;
+            width: 30px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            font-size: 20px;
+            z-index: 999
+        }
+        .left{
+            left: 0;
+        }
+        .right{
+            right: 0;
+        }
+        .slot{
+            position: absolute;
+            bottom: 15px;
+            left: calc(50% - 60px);
+            height: 10px;
+            width: 140px;
+        }
+        .slot-items{
+            float: left;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-left: 5px;
+            background-color: gray;
+            /* border: 3px solid red;
+            background-clip: content-box; */
+        }
+        .slot-items.active{
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="left">＜</div>
+        <ul class="ban">
+            <li>
+                <img src="./img/f1.jpg" alt="">
+            </li>
+            <li>
+                <img src="./img/f2.jpg" alt="">
+            </li>
+            <li>
+                <img src="./img/f3.jpg" alt="">
+            </li>
+            <li>
+                <img src="./img/f4.jpg" alt="">
+            </li>
+            <li>
+                <img src="./img/f1.jpg" alt="">
+            </li>
+        </ul>
+        <div class="right">＞</div>
+        <ul class="slot">
+            <li class="slot-items active"></li>
+            <li class="slot-items"></li>
+            <li class="slot-items"></li>
+            <li class="slot-items"></li>
+        </ul>
+    </div>
+
+    <script>
+        var boxEl = document.querySelector('.box')
+        var ulEl = document.querySelector('.ban')
+        var left = document.querySelector('.left')
+        var right = document.querySelector('.right')
+        var slotEl = document.querySelector('.slot')
+        var slots = slotEl.children
+        // var imgArr = ['f1','f2','f3','f4']
+        var ulArr = ulEl.children
+
+        var w = ulEl.offsetWidth
+        var count = 0
+        
+        //生成li
+        // var str = ""
+        // for (let i = 0; i < imgArr.length; i++) {
+        //     str = str + `<li>
+        //                     <img src="./img/${imgArr[i]}.jpg" alt="" ondragstart="return false;">
+        //                 </li>`
+        // }
+        // ulEl.innerHTML = str
+
+        //生成小点
+        // var slotStr = `<li class="slot-items active" onclick="slotAcitve(${-1})"></li>`
+        // for (let i = 0; i < imgArr.length - 1; i++) {
+        //     slotStr += `<li class="slot-items" onclick="slotAcitve(${i})" ></li>`
+        // }
+        // slotEl.innerHTML = slotStr 
+
+        //下一张
+        right.onclick = function () {
+            clearInterval(time)
+            go()
+        }
+
+        //上一张
+        left.onclick = function () {
+            if (count == 0) {
+                count = ulArr.length - 1
+                ulEl.style.left = -(ulArr.length - 1)*w + 'px'
+            }
+            count--
+            // ulEl.style.left = -count*w + 'px'
+            average(ulEl,-count*w)
+            document.querySelector('.active').classList.remove('active')
+			slots[count].classList.add('active')
+        }
+
+        //点击激活小点样式
+        // function slotAcitve(val) {
+        //     var num = val + 1
+        //     document.querySelector('.active').classList.remove('active')
+        //     slots[val+1].classList.add('active')
+        //     // ulEl.style.left = -num*w + 'px'
+
+        //     average(ulEl,-num*w)
+        // }
+        for(var i = 0 ; i < slots.length; i ++){
+            slots[i].index = i;
+            slots[i].onclick = function (){
+                    count = this.index;
+                    document.querySelector('.active').classList.remove('active')
+                    this.classList.add('active')
+                    average(ulEl,-count * w);
+                }
+			}
+
+        //缓动动画
+        var timer = null
+        function average(el,target) {
+            var start,step;
+            clearInterval(timer)
+            timer = setInterval(function(){
+                start = el.offsetLeft
+                step = (target - start)/10
+                if (Math.abs(step) < 1) {
+                    step = step > 0 ? Math.ceil(step) : Math.floor(step)
+                }
+                if (start + step == target) {
+                    el.style.left = target + 'px'
+                }
+                el.style.left = start + step + 'px'
+            },17)
+        }
+
+        function go() {
+            if (count == ulArr.length - 1) {
+                count = 0
+                ulEl.style.left = 0 + 'px'
+            }
+            count++
+            average(ulEl,-count*w)
+            // ulEl.style.left = -count*w + 'px'
+            document.querySelector('.active').classList.remove('active')
+            if(count === ulArr.length - 1){
+                slots[0].classList.add('active')
+            }else{
+                slots[count].classList.add('active')
+            }
+        }
+
+        //自动轮播
+        var time = setInterval(function () {
+            go()
+        },1500)
+        boxEl.onmouseenter = function () {
+            clearInterval(time)
+        }
+        boxEl.onmouseleave = function () {
+            time = setInterval(function () {
+            go()
+        },1500)
+        }
+    </script>
+</body>
+</html>

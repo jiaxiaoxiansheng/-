@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 200px;
+            height: 200px;
+            background-color: green;
+            /* transition: all ease .4s; */
+        }
+    </style>
+</head>
+
+<body>
+    <!-- color-ui 小程序ui框架 
+        移动端 touch事件 移动端的滑动 都是基于touch实现的
+        1. 移动端的轮播  一般采用 swiper(插件) https://www.swiper.com.cn/
+        2. 比较好的scroll插件 better-scroll  https://github.com/ustbhuangyi/better-scroll
+        3. 手写 -->
+
+    <div class="box">
+
+    </div>
+
+    <script>
+        // 1.获取盒子
+        var boxEl = document.querySelector('.box');
+        // 滑动判断的距离
+        var maxDis = 50;
+        // 2.添加事件
+        boxEl.ontouchstart = function (e) {
+            // 清楚默认过渡效果
+            this.style.transition = 'none';
+            // 因为移动端是多点触控  这里只考虑一根手指头的touch操作
+            var touch = e.touches[0];
+            // 初始盒子left位置
+            var offsetLeftStart = this.offsetLeft;
+            // 滑动起始坐标
+            var startX = touch.clientX;
+            // console.log('startX',startX);
+            var endX = startX;
+            // 起始时间
+            var startTime = new Date().getTime();
+            //3.给文档对象添加 move事件 
+            document.ontouchmove = function (e) {
+                var touch = e.touches[0];
+                // 滑动的时候 更新  endX 
+                endX = touch.clientX;
+                // 更新dom   增量（endX-startX）+初始位置
+                boxEl.style.left = endX - startX + offsetLeftStart + 'px';
+            }
+
+            // 4. 结束
+            boxEl.ontouchend = function(){
+                //5.清楚move事件
+                document.ontouchmove = null;
+                var endTime = new Date().getTime();
+                // 添加过渡效果
+                this.style.transition = 'all ease .4s';
+                /*
+                 如何证明滑动了？
+                a) 滑动间距大于100px
+                b) 如果时间大于100ms触发
+                */
+                if(Math.abs(endX-startX)>maxDis && (endTime - startTime >= 100)){
+                    // 往右滑动
+                    if(endX - startX > 0 ){
+                        //触发了滑动
+                        handleSwipe(this,true);
+                    }else{
+                        handleSwipe(this);
+                    }
+                }else{  //没有触发滑动
+                    // 还原
+                    boxEl.style.left = offsetLeftStart+'px';
+                }
+
+            }
+
+        }
+
+        /**
+         *  处理滑动
+         *  @params el  元素
+         *  @params isRight boolean  是否往右滑动
+         * */
+        function handleSwipe(el,isRight){
+            // el.style.backgroundColor = 'pink';
+            var offsetLeft  = 0 ;
+            // 往右
+            if(isRight){
+                offsetLeft = document.documentElement.clientWidth - el.offsetWidth;
+                 
+            }else{
+                offsetLeft = 0 ;
+            }
+            // 盒子在右边距的时候 距离左边距的距离
+            el.style.left = offsetLeft + 'px';
+        }
+
+        function handleSwipeRight(){
+
+        }
+    </script>
+
+
+
+
+</body>
+
+</html>
